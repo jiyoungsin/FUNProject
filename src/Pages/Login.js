@@ -1,20 +1,21 @@
+import useAuth from '../Utils/useAuth';
+import { Link } from "react-router-dom";
+import React, { useContext } from 'react';
 import Button from "react-bootstrap/Button";
-import React, {useState, useContext} from 'react';
-import { userSession } from '../userContextFile';
 import { useNavigate } from "react-router-dom";
+import { userSession } from '../userContextFile';
 import { useForm, useFormState } from "react-hook-form";
 
-const USER_NAME = 'username';
+const EMAIL = 'email';
 const PASSWORD = 'password';
 
 export default function Login() {
     const navigate = useNavigate();
-    const {login} = useContext(userSession);
+    const { login, err } = useAuth();
     const { 
         register,
         control,
         handleSubmit,
-        watch,
         formState: { errors } 
     } = useForm();
 
@@ -25,22 +26,22 @@ export default function Login() {
     } = useFormState({ control });
 
     const onSubmit = data => {
-        console.log(data);
+        login(data.email, data.password);
+        if ( !err ) navigate("/");
     };
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
-            <label className="form-label" htmlFor={USER_NAME}>Username</label>
+            <label className="form-label" htmlFor={EMAIL}>Email</label>
             <input
-                id={USER_NAME}
+                id={EMAIL}
                 type="text"
                 className="form-control"
-                placeholder="Username"
-                {...register(USER_NAME, { required: "This is a required field" })}
+                placeholder="Email"
+                {...register(EMAIL, { required: "This is a required field" })}
             />
-            {errors.username && <span>This field is required</span>}
+            {errors.email && <span>This field is required</span>}
         </div>
         <div className="form-group">
             <label className="form-label" htmlFor={PASSWORD}>Password</label>
@@ -54,15 +55,10 @@ export default function Login() {
             {errors.password && <span>This field is required</span>}
         </div>
         <div className="flex-grow-1">
-            <p className= {`d-none ${!isDirty ? "true" : "false"}`}>
+            <p>
                 <i className="fas fa-exclamation text-warning"/>
                 &nbsp;
-                Unsaved changes
-            </p>
-            <p className={`d-none ${!(isSubmitSuccessful && !isDirty) ? "true" : "false"}`}>
-                <i className="fas fa-check text-success"/>
-                &nbsp;
-                Saved
+                Don't Have An Account? <Link to="/signup">Sign Up</Link>
             </p>
         </div>
         <div className="text-right">
@@ -72,7 +68,7 @@ export default function Login() {
                 variant="primary"
                 type="submit"
             >
-                {isSubmitting ? "Saving..." : "Save"}
+                {isSubmitting ? "logging in..." : "login"}
             </Button>
         </div>
     </form>

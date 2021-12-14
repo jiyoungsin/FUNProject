@@ -1,8 +1,7 @@
 
-import { signInWithEmailAndPassword, signOut, getAuth } from "@firebase/auth";
+import { auth } from "./firebase";
 import React, { createContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
-import { auth } from "./firebase";
 
 export const userSession = createContext();
 export const UserSessionProvider = ({ children }) => {
@@ -20,26 +19,9 @@ export const UserSessionProvider = ({ children }) => {
     });
   },[])
 
-    const login = async (email, password) =>{
-        console.log("@@@@@");
-        await signInWithEmailAndPassword(auth, email, password);
-        const theUser = await getAuth().currentUser;
-        setUser(theUser);
-    }
-
-  const signUserOut = async () => {
-    await signOut(auth).then(() => {
-      console.log("successfully Signed Out!")
-      // Sign-out successful.
-    }).catch((error) => {
-      // An error happened.
-      console.log(error);
-    });
-  };
-
   return (
     <userSession.Provider
-      value={{ user, setUser, signUserOut, login, isAdmin }}
+      value={{ user, isAdmin }}
     >
       {children}
     </userSession.Provider>
