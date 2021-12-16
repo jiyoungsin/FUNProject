@@ -6,6 +6,7 @@ import { UserSessionProvider } from './userContextFile';
 import HomePage from "./Pages/HomePage.js";
 import SignUp from "./Pages/SignUp.js";
 import Login from "./Pages/Login.js";
+import VolunteerForm from "./Pages/VolunteerForm.js";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Route path="/" element={<HomePage/>} />
               <Route path="/login" element={<Login/>} />
               <Route path="/signup" element={<SignUp/>} />
+              <Route path="/volunteerForm" element={<VolunteerForm/>} />
           </Routes>
         </UserSessionProvider>
       </BrowserRouter>

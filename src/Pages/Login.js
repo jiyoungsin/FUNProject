@@ -1,9 +1,8 @@
 import useAuth from '../Utils/useAuth';
 import { Link } from "react-router-dom";
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import { userSession } from '../userContextFile';
 import { useForm, useFormState } from "react-hook-form";
 
 const EMAIL = 'email';
