@@ -21,7 +21,6 @@ export default function Login() {
     const {
         isDirty,
         isSubmitting,
-        isSubmitSuccessful,
     } = useFormState({ control });
 
     const onSubmit = data => {

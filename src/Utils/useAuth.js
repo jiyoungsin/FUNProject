@@ -1,12 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth, db } from "../firebase";
 import { setDoc, doc } from "@firebase/firestore";
-import { createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, getAuth } from "@firebase/auth";
+import { createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged } from "@firebase/auth";
 
 
 export default function useAuth() {
+    const [user, setUser] = useState({});
+    const [err, setErr] = useState();
+    const [isAdmin, setAdmin] = useState(false);
 
-    const [err, setErr] = React.useState();
+    useEffect(()=>{
+        onAuthStateChanged(auth, theUser => {
+            if(theUser && theUser.uid === "ScB5NUIkMWh8MI1H2XECkzVz9r13"){
+                setAdmin(true);
+            } else {
+                setAdmin(false);
+            }
+            setUser(theUser);
+        });
+      },[])
 
     const signUpWithEmailPassword = async (data) => {
         try {
@@ -48,5 +60,5 @@ export default function useAuth() {
         }
     }
 
-    return { login, signUserOut, signUpWithEmailPassword, err };
+    return { login, signUserOut, signUpWithEmailPassword, err, user, isAdmin };
 }

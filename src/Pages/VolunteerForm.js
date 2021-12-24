@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useForm, useFormState } from "react-hook-form";
 import useVolunteerApplication from "../Utils/useVolunteerApplication";
 
-const EMAIL ='email';
-const SCHOOL ='school';
+const AGE = 'age';
+const EMAIL = 'email';
+const SCHOOL = 'school';
 const LAST_NAME = 'last_name';
 const GRAD = 'graduation_year';
 const FIRST_NAME = 'first_name';
@@ -16,6 +17,7 @@ export default function VolunteerForm() {
     const navigate = useNavigate();
     const { createVolunteer, isSuccess } = useVolunteerApplication();
     const { 
+        reset,
         register,
         control,
         handleSubmit,
@@ -28,9 +30,11 @@ export default function VolunteerForm() {
         isSubmitSuccessful,
     } = useFormState({ control });
 
-    const onSubmit = data => {
+    const onSubmit = async data => {
         console.log(data);
-        createVolunteer(data);
+        await createVolunteer(data);
+        reset();
+        if(isSuccess) navigate("/");
     };
 
     return (
@@ -69,6 +73,16 @@ export default function VolunteerForm() {
             {errors.email && <span>This field is required</span>}
         </div>
         <div className="form-group">
+            <label className="form-label" htmlFor={AGE}>Age</label>
+            <input
+                id={AGE}
+                type="text"
+                className="form-control"
+                {...register(AGE, { required: "This is a required field" })}
+            />
+            {errors.age && <span>This field is required</span>}
+        </div>
+        <div className="form-group">
             <label className="form-label" htmlFor={SCHOOL}>School Name</label>
             <input
                 id={SCHOOL}
@@ -95,7 +109,7 @@ export default function VolunteerForm() {
                 id={LINKED_IN}
                 type="text"
                 className="form-control"
-                placeholder="Graduation Year"
+                placeholder=""
                 {...register(LINKED_IN, { required: "This is a required field" })}
             />
             {errors.linked_in && <span>This field is required</span>}
@@ -108,7 +122,7 @@ export default function VolunteerForm() {
                 variant="primary"
                 type="submit"
             >
-                {isSubmitting ? "logging in..." : "login"}
+                {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
         </div>
     </form>

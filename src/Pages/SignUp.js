@@ -23,7 +23,6 @@ export default function SignUp() {
     const {
         isDirty,
         isSubmitting,
-        isSubmitSuccessful,
     } = useFormState({ control });
 
     const onSubmit = data => {
