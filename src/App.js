@@ -10,6 +10,7 @@ import NavBar from "./Component/NavBar";
 import HomePage from "./Pages/HomePage.js";
 import VolunteerForm from "./Pages/VolunteerForm.js";
 import VolunteerList from "./Pages/VolunteerList.js";
+import VolunteerPositionForm from "./Pages/VolunteerPositionForm.js";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/account" element={<Account/>} />
             <Route path="/volunteerForm" element={<VolunteerForm/>} />
             <Route path="/volunteerList" element={<VolunteerList/>} />
+            <Route path="/VolunteerPositionForm" element={<VolunteerPositionForm/>} />
           </Routes>
         </UserSessionProvider>
       </BrowserRouter>
